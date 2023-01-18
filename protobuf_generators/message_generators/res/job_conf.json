@@ -1,0 +1,94 @@
+{
+    "job_id": 1014512235720030,
+    "creator_user_name": "yilun.xie@databricks.com",
+    "run_as_user_name": "yilun.xie@databricks.com",
+    "run_as_owner": true,
+    "settings": {
+        "name": "protobuf_generator",
+        "email_notifications": {
+            "no_alert_for_skipped_runs": false
+        },
+        "webhook_notifications": {},
+        "timeout_seconds": 0,
+        "max_concurrent_runs": 1,
+        "tasks": [
+            {
+                "task_key": "envelope_generator",
+                "python_wheel_task": {
+                    "package_name": "protobuf_generators",
+                    "entry_point": "envelope_generator",
+                    "named_parameters": {
+                        "scope": "scu-devops-secret",
+                        "app_id_key": "astra-dbradvsr-dev-scu-sp-client-id",
+                        "deposit_account_name": "astradbradvsrdevscusa",
+                        "directory_id_key": "astra-dbradvsr-dev-scu-sp-tenant-id",
+                        "interval": "30 seconds",
+                        "deposit_container_name": "data",
+                        "multiplier": "5",
+                        "sp_credential_key": "astra-dbradvsr-dev-scu-sp-client-secret",
+                        "num_cores": "32"
+                    }
+                },
+                "job_cluster_key": "envelope_generator_cluster",
+                "libraries": [
+                    {
+                        "whl": "dbfs:/FileStore/tables/proto_ingestion-2.5-py3-none-any.whl"
+                    },
+                    {
+                        "jar": "dbfs:/FileStore/tables/spark_protobuf_2_12_3_4_0_SNAPSHOT.jar"
+                    },
+                    {
+                        "pypi": {
+                            "package": "dbldatagen==0.3.0"
+                        }
+                    },
+                    {
+                        "whl": "dbfs:/FileStore/tables/protobuf_generators-1.1-py3-none-any.whl"
+                    }
+                ],
+                "timeout_seconds": 0,
+                "email_notifications": {}
+            }
+        ],
+        "job_clusters": [
+            {
+                "job_cluster_key": "envelope_generator_cluster",
+                "new_cluster": {
+                    "cluster_name": "",
+                    "spark_version": "12.0.x-scala2.12",
+                    "spark_conf": {
+                        "spark.databricks.delta.preview.enabled": "true",
+                        "spark.sql.streaming.metricsEnabled": "true"
+                    },
+                    "azure_attributes": {
+                        "first_on_demand": 1,
+                        "availability": "ON_DEMAND_AZURE",
+                        "spot_bid_max_price": -1
+                    },
+                    "node_type_id": "Standard_DS3_v2",
+                    "custom_tags": {
+                        "Project": "DellAstra"
+                    },
+                    "spark_env_vars": {
+                        "DD_API_KEY": "{{secrets/scu-devops-secret/yilun-datadog-api-key}}",
+                        "DD_ENV": "dev",
+                        "DD_SITE": "us3.datadoghq.com"
+                    },
+                    "enable_elastic_disk": true,
+                    "init_scripts": [
+                        {
+                            "dbfs": {
+                                "destination": "dbfs:/FileStore/tables/datadog-install-driver-workers.sh"
+                            }
+                        }
+                    ],
+                    "data_security_mode": "LEGACY_SINGLE_USER_STANDARD",
+                    "runtime_engine": "STANDARD",
+                    "num_workers": 8
+                }
+            }
+        ],
+        "format": "MULTI_TASK"
+    },
+    "created_time": 1671234200782
+}
