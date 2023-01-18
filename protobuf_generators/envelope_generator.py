@@ -249,7 +249,7 @@ def main():
     '652c6965-f001-4cf4-b980-90f42a502158': math.ceil(1003 * multiplier), 
     'c9b162e7-c8e7-4e53-b338-295f6afad85d': math.ceil(1003 * multiplier), 
     '70350172-f987-4e0b-9b9b-3192d8fdf17d': math.ceil(1003 * multiplier), 
-    '10466b48-557f-4966-a697-2247d2f3cb4b': math.ceil(2006 * multiplier), 
+    '10466b48-557f-4966-a697-2247d2f3cb4b': math.ceil(2008 * multiplier), 
   }
 
   proto_module = {
